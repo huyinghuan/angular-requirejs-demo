@@ -1,0 +1,43 @@
+/**
+ *name: cont-left.less;
+ *update-time: 2015-02-03;
+ **/
+
+.main-cont {
+  display: flex;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: flexbox;
+  -ms-box-orient: horizontal;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  .cont-left {
+    width: 240px;
+    height: 100%;
+    ul {
+      li {
+        height: 30px;
+        line-height: 30px;
+        margin: 15px 0;
+        border-left: 2px solid #ebebeb;
+        span {
+          height: 30px;
+          margin: 0 0 0 15px;
+          padding: 0 0 0 35px;
+          color: #333;
+          &.real-time {
+            background: url("@{base-url}real-time.png") left no-repeat;
+          }
+        }
+        &.on {
+          border-left: 2px solid #3b7bea;
+        }
+      }
+    }
+  }
+  //.cont-left end
+  @import "cont-right";
+}

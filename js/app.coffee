@@ -4,6 +4,7 @@ define(['angularAMD', 'uiRouter'], (angularAMD)->
     '$locationProvider',
     '$urlRouterProvider',
     '$stateProvider', ($locationProvider, $urlRouterProvider, $stateProvider)->
+      $locationProvider.html5Mode true
       $urlRouterProvider.otherwise('/login')
       $stateProvider.state("login", angularAMD.route({
         url: "/login"

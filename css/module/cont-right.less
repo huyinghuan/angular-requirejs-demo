@@ -1,0 +1,201 @@
+/**
+ *name: cont-right.less;
+ *update-time: 2015-02-03;
+ **/
+
+.cont-right {
+  width: 100%;
+  background: #fff;
+  color: #333;
+  .right-nav {
+    width: 95%;
+    height: 42px;
+    line-height: 42px;
+    margin: 10px 0 0 20px;
+    a, span {
+      padding-left: 5px;
+    }
+  }
+  //.right-nav end
+  .right-choose {
+    width: 100%;
+    height: 40px;
+    padding: 10px 0;
+    .select-box {
+      .seltext {
+        float: left;
+        width: 60px;
+        line-height: 30px;
+        padding: 0 10px 0 0;
+        text-align: right;
+      }
+      .selbg {
+        float: left;
+        position: relative;
+        width: 160px;
+        height: 30px;
+        border: 1px solid #c9c9c9;
+        overflow: hidden;
+        border-radius: 3px;
+        cursor: pointer;
+        a {
+          display: block;
+          position: absolute;
+          right: 0;
+          width: 23px;
+          height: 30px;
+          background: url("@{base-url}pull.png") no-repeat;
+        }
+        input {
+          width: 140px;
+          height: 30px;
+          line-height: 30px;
+          padding: 0 10px;
+          border: 0;
+          outline: none;
+        }
+      }
+      .sellist {
+        width: 160px;
+        height: 30px;
+        padding: 0 0 0 10px;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        outline: none;
+      }
+      &.selip {
+        .seltext {
+          width: 80px;
+        }
+      }
+      &.seltime {
+        .selbg {
+          width: 270px;
+        }
+        .sellist {
+          width: 270px;
+        }
+      }
+    }
+    //.select-box end
+    .now-time {
+      float: right;
+      width: 200px;
+      text-align: center;
+      font-size: 18px;
+    }
+  }
+  //.right-choose end
+  .iaas-view {
+    width: 100%;
+    padding: 20px 0 0 0;
+    overflow: hidden;
+    .viem-title {
+      width: 100%;
+      margin: 0 0 10px 20px;
+      border-bottom: 1px solid #c9c9c9;
+      strong {
+        line-height: 36px;
+        font-size: 18px;
+        font-weight: normal;
+      }
+      &.disk{
+        margin: 0 0 0 20px;
+      }
+    }
+    .viem-cont {
+      width: 99%;
+      padding: 0 0 0 20px;
+      table.servertable {
+        margin: 10px 0 20px 0;
+        border: 0;
+        th {
+          padding: 8px;
+          border-width: 0px 1px 0 0;
+          border-style: solid;
+          border-color: #c9c9c9;
+          background-color: #f2f2f2;
+          font-weight: normal;
+          text-align: center;
+        }
+        tr {
+          td {
+            padding: 10px 12px;
+            text-align: center;
+            border: 0;
+            &.error {
+              color: red;
+            }
+            &.normal {
+              color: green;
+            }
+            a {
+              margin: 0 5px;
+              color: #6889af;
+            }
+          }
+          &.odd-row {
+            background-color: #fff;
+          }
+          &.even-row {
+            background-color: #f5faff;
+          }
+        }
+      }
+      //.servertable end
+      table.disktable {
+        width: 100%;
+        margin: 0px 0 20px 0;
+        border: 0;
+        th {
+          width: 16%;
+          padding: 10px 0;
+          border-width: 0px 1px 1px 0;
+          border-style: solid;
+          border-color: #c9c9c9;
+          font-weight: normal;
+          text-align: center;
+        }
+        tr {
+          border-bottom: 1px solid #c9c9c9;
+          td {
+            padding: 10px 12px;
+            text-align: center;
+            border: 0;
+            &.error {
+              color: red;
+            }
+            &.normal {
+              color: green;
+            }
+          }
+        }
+      }
+      //.disktable end
+      .table-page {
+        padding: 3px 20px 0 0;
+        margin: 3px 0 20px 0;
+        text-align: right;
+        a, span {
+          padding: 5px 10px;
+          margin: 5px;
+          border: 1px solid #fafafa;
+          color: #333;
+          text-decoration: none;
+          &:hover, &:active, &.current, &.disabled {
+            padding: 5px 10px;
+            margin: 5px;
+            border: 1px solid #fafafa;
+            background: #eaeaea;
+          }
+          &.current, &.disabled {
+            font-weight: bold;
+          }
+        }
+      }
+      //.table-page end
+    }
+  }
+  //.iaas-view end
+}
