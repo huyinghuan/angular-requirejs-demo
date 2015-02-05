@@ -6,11 +6,11 @@
     <!--登录左侧 END-->
     <div class="login-right">
       <ul>
-        <li class="warn off">您输入的面膜和账户名不匹配，请重新输入</li>
-        <li><input type="text"></li>
-        <li><input type="password"></li>
+        <li class="warn" ng-class="{off: status}">您输入的面膜和账户名不匹配，请重新输入</li>
+        <li><input type="text" ng-model="username"></li>
+        <li><input type="password" ng-model="password"></li>
         <li><label><input type="checkbox">记住密码</label><a href="#">忘记密码</a> </li>
-        <li><input type="submit" value="登    录"></li>
+        <li><input type="button" class="submit-btn" value="登    录" ng-click="submit()"></li>
       </ul>
     </div>
     <!--登录右侧 END-->

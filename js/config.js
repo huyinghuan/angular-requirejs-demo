@@ -1,6 +1,9 @@
 requirejs.config({
   baseUrl: '/js',
   paths: {
+    d: 'directive',
+    c: 'controller',
+    s: 'service',
     jquery: 'vendor/jquery/dist/jquery',
     lodash: '.vendor/lodash/lodash',
     angular: 'vendor/angular/angular',
