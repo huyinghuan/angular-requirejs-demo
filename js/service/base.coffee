@@ -1,6 +1,6 @@
 define ['app'], (app)->
   app.factory('Base', ['$http', '$q', '$log',($http, $q, $log)->
-    baseUrl = '/api'
+    baseUrl = '/iaas/api'
 
     buildUrl = (uri)->
       url = "#{baseUrl}/#{uri}".replace(/\/\//g, "")
@@ -17,7 +17,7 @@ define ['app'], (app)->
           method: type
           url: url
           params: params
-          timeout: 1000
+          timeout: 5000
         ).success((data)->
           deferred.resolve(data)
         ).error((msg, code)->
