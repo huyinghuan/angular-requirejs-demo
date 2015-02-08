@@ -1,5 +1,5 @@
 define(
-  ['app', 's/realtime-service', 'd/server-list-table', 'scf/select'],
+  ['app', 's/realtime-service', 'd/server-list-table'],
   (app)->
     class Biz
       constructor: (service, $q)->

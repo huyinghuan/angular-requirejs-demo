@@ -1,4 +1,4 @@
-define ['sc/index'], (SimpleComponent)->
+define ['SimpleComponent'], (SimpleComponent)->
   template = '
      <div class="{{clazz}}">
       <span class="seltext">{{title}}</span>

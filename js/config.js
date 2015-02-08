@@ -1,12 +1,14 @@
 requirejs.config({
   urlArgs: 'v=v' + new Date().getTime(),
   baseUrl: '/js',
+  packages: [{
+    name:"sc",
+    location: 'simple-component'
+  }],
   paths: {
     d: 'directive',
     c: 'controller',
     s: 'service',
-    sc: 'simple-component',
-    scf: 'simple-component/form',
     jquery: 'vendor/jquery/dist/jquery',
     lodash: '.vendor/lodash/lodash',
     angular: 'vendor/angular/angular',
@@ -14,7 +16,6 @@ requirejs.config({
     'uiRouter': 'vendor/angular-ui-router/release/angular-ui-router',
     angularAMD: 'vendor/angularAMD/angularAMD'
   },
-  packages: [],
   shim: {
     angular: {exports: 'angular'},
     'angularAMD': ['angular'],

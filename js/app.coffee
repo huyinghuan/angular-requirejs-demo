@@ -1,5 +1,5 @@
 define(
-  ['angularAMD', 'sc/index', 'uiRouter'],
+  ['angularAMD', 'sc', 'uiRouter'],
   (angularAMD)->
     app = angular.module("app", ['ui.router', 'simple.component'])
     app.config([
