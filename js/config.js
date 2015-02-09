@@ -1,27 +1,51 @@
 requirejs.config({
-  urlArgs: 'v=v' + new Date().getTime(),
+  urlArgs: 'v=v1423449266689',
   baseUrl: '/js',
-  packages: [{
-    name:"sc",
-    location: 'simple-component'
-  }],
+  packages: [
+    {
+      name: 'sc',
+      location: 'simple-component'
+    }
+  ],
   paths: {
     d: 'directive',
     c: 'controller',
     s: 'service',
     jquery: 'vendor/jquery/dist/jquery',
-    lodash: '.vendor/lodash/lodash',
+    lodash: 'vendor/lodash/lodash',
     angular: 'vendor/angular/angular',
-    'ngCookies': 'vendor/angular-cookies/angular-cookies',
-    'uiRouter': 'vendor/angular-ui-router/release/angular-ui-router',
-    angularAMD: 'vendor/angularAMD/angularAMD'
+    angularAMD: 'vendor/angularAMD/angularAMD',
+    'angular-cookies': 'vendor/angular-cookies/angular-cookies',
+    'angular-ui-router': 'vendor/angular-ui-router/release/angular-ui-router',
+    'bootstrap-daterangepicker': 'vendor/bootstrap-daterangepicker/daterangepicker',
+    moment: 'vendor/moment/moment',
+    echarts: '/js/vendor/echarts'
   },
   shim: {
-    angular: {exports: 'angular'},
-    'angularAMD': ['angular'],
-    'ngCookies': { deps: ['angular']},
-    'uiRouter': { deps: ['angular']},
-    lodash: { exports: '_'}
+    angular: {
+      exports: 'angular'
+    },
+    angularAMD: [
+      'angular'
+    ],
+    'angular-cookies': {
+      deps: [
+        'angular'
+      ]
+    },
+    'angular-ui-router': {
+      deps: [
+        'angular'
+      ]
+    },
+    lodash: {
+      exports: '_'
+    },
+    'bootstrap-daterangepicker': {
+      deps: ['jquery', 'moment']
+    }
   },
-  deps: ['app']
+  deps: [
+    'app'
+  ]
 });

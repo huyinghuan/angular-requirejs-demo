@@ -1,6 +1,6 @@
 define ['SimpleComponent'], (SimpleComponent)->
   template = '
-     <div class="{{clazz}}">
+     <div class="simple-component {{clazz}}">
       <span class="seltext">{{title}}</span>
       <div class="selbg">
         <a href=""></a>
@@ -15,7 +15,6 @@ define ['SimpleComponent'], (SimpleComponent)->
     </div>
   '
   scope = bean: '=', clazz: '@', title: '@', name: '@'
-  console.log(SimpleComponent)
 
   SimpleComponent.directive('sfSelect',[->
     restrict: 'E'

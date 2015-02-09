@@ -1,22 +1,29 @@
 define(
-  ['app', 's/realtime-service', 'd/server-list-table'],
-  (app)->
+  ['app', 'moment', 's/realtime-service', 'd/server-list-table'],
+  (app, moment)->
     class Biz
       constructor: (service, $q)->
         @service = service
         @$q = $q
 
-      bizList: ->
+      q: (data)->
         deferred = @$q.defer()
-        data = [{name: 1, value: 1},{name: 2, value: 2}]
         deferred.resolve(data)
         deferred.promise
 
+      bizList: ->
+        data = [{name: 1, value: 1},{name: 2, value: 2}]
+        @q(data)
+
       cityList: ->
-        deferred = @$q.defer()
         data = [{name: "长沙", value: "changsha"},{name: "株洲", value: "zhuzhou"}]
-        deferred.resolve(data)
-        deferred.promise
+        @q(data)
+
+      timeBucket: ->
+        @q({startDate: new Date(), endDate: moment()})
+
+      default: ->
+        @q(null)
 
     app.controller('RealtimeController',
       [
@@ -27,8 +34,10 @@ define(
         'RealtimeService'
         ($scope, $state, $q, $log, RealtimeService)->
           biz = new Biz(RealtimeService, $q)
+          getData = (name)-> if biz[name] then biz[name]() else biz['default']()
           $scope.bean = {
-            getList: (name)-> biz[name]()
+            getList: getData
+            getData: getData
           }
       ]
     )
