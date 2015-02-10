@@ -7,8 +7,8 @@ define ['SimpleComponent'], (SimpleComponent)->
         <select class="sellist" name="{{name}}">
           <option
             ng-repeat="item in itemList"
-             value="{item.value}">
-            {{item.name}}
+             value="{item.value || item}">
+            {{item.name || item}}
           </option>
         </select>
       </div>

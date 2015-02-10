@@ -1,16 +1,12 @@
 define ['SimpleComponent', './base', 'echarts', 'echarts/chart/line']
 , (SimpleComponent, Base, echarts)->
-    template = '
-      <div></div>
-    '
-    #默认图形的宽和高
-    defaultChartHeight = "400px"
-    defaultChartWidth = "90%"
+    template = '<div></div>'
+
     scope =
       bean: '='
+      name: '@'
       clazz: '@'
-      title: '@'
-      subTitle: '@'
+      headTitle: '@'
       chartWidth: '@'
       chartHeight: '@'
       chartData: '='
@@ -18,28 +14,34 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/line']
     class LineSurface extends Base
       constructor: -> super
 
-
     SimpleComponent.directive('sfLineSurface',['$timeout', ($timeout)->
-      restrict: 'E'
+      restrict: 'AE'
       replace: true
       template: template
       scope: scope
       link: ($scope, element, attr)->
-        chartHeight = $scope.chartHeight or defaultChartHeight
-        chartWidth = $scope.chartWidth or defaultChartWidth
-        $(element).css('height', chartHeight)
-        $(element).css('width', chartWidth)
-
-        chart = new LineSurface(element[0])
-
-        initChart = (data)->
-          data = data or {}
-          chart.setTitle(text: $scope.title, subtext: $scope.subTitle)
-            .parseLegendFromSeries(data.series)
+        chart = null
+        setChartOptions = (data)->
+          chart.parseLegendFromSeries(data.series)
             .setXAixs(data.xAxis)
             .setYAixs(data.yAxis)
             .setSeries(data.series)
+            .setTitle(data.title)
             .finish()
+
+        initChart = (data)->
+          chart = new LineSurface(element[0],
+            {
+              width: $scope.chartHeight,
+              height: $scope.chartWidth
+            })
+          data = data or {}
+          chart.setTitle(text: $scope.title, subtext: $scope.subTitle)
+          setChartOptions(data)
+
+        $scope.$on('SimpleComponent:chart:data:change', (e, data)->
+          setChartOptions(data)
+        )
 
         $timeout(->
           initChart($scope.chartData)

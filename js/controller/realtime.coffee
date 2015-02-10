@@ -12,12 +12,10 @@ define(
         deferred.promise
 
       bizList: ->
-        data = [{name: 1, value: 1},{name: 2, value: 2}]
-        @q(data)
+        @service.getBizList()
 
       cityList: ->
-        data = [{name: "长沙", value: "changsha"},{name: "株洲", value: "zhuzhou"}]
-        @q(data)
+        @service.getCityList()
 
       timeBucket: ->
         @q({startDate: new Date(), endDate: moment()})
@@ -44,36 +42,16 @@ define(
 
           $scope.chartList = [
             {
-              title: "CPU状态"
-              subTitle: ""
-              xAxis: [ {
-                type: 'category'
-                boundaryGap: false
-                data: ['周一','周二','周三','周四','周五','周六','周日']
-              }]
+              headTitle: 'cpu状态'
+              title: text: 'cpu状态', subtext: '192.16'
+              xAxis: [
+                ['周一','周二','周三','周四','周五','周六','周日']
+              ]
               yAxis: [ { type: 'value' } ]
               series: [
-                {
-                  name: '成交'
-                  type: 'line'
-                  smooth: true
-                  itemStyle: normal: areaStyle: type: 'default'
-                  data:[10, 12, 21, 54, 260, 830, 710]
-                }
-                {
-                  name: '预购'
-                  type: 'line'
-                  smooth: true
-                  itemStyle: normal: areaStyle: type: 'default'
-                  data:[30, 182, 434, 791, 390, 30, 10]
-                }
-                {
-                  name: '意向'
-                  type: 'line'
-                  smooth: true
-                  itemStyle: normal: areaStyle: type: 'default'
-                  data:[1320, 1132, 601, 234, 120, 90, 20]
-                }
+                ['成交', [10, 12, 21, 54, 260, 830, 710]]
+                ['预购', [30, 182, 434, 791, 390, 30, 10]]
+                ['意向', [1320, 1132, 601, 234, 120, 90, 20]]
               ]
             }
           ]

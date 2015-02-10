@@ -1,4 +1,4 @@
-define ['app'], (app)->
+define ['app', 'lodash'], (app, _)->
   app.factory('Base', ['$http', '$q', '$log',($http, $q, $log)->
     baseUrl = '/iaas/api'
 
@@ -11,6 +11,7 @@ define ['app'], (app)->
 
     ajax = (type)->
       (uri, params)->
+        _.extend params, {username: '刘悦', jurisdiction: 2}
         url = buildUrl(uri)
         deferred = $q.defer()
         $http(

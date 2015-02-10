@@ -24,15 +24,13 @@
 </div>
 <!--right-choose end-->
 <div class="iaas-view" ng-repeat="chartData in chartList">
-  <sf-title-hr title="{{chartData.title}}"></sf-title-hr>
+  <sf-title-hr title="{{chartData.headTitle}}"></sf-title-hr>
   <div class="viem-cont">
-    <sf-line-surface
+    <div sf-line-surface
       bean="bean"
-      name="cpu"
-      title="CPU状态"
       chart-data="chartData"
       >
-    </sf-line-surface>
+    </div>
   </div>
 </div>
 <!--iaas-view end-->
