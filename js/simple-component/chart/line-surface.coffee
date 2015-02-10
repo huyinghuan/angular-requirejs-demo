@@ -1,48 +1,47 @@
 define ['SimpleComponent', './base', 'echarts', 'echarts/chart/line']
 , (SimpleComponent, Base, echarts)->
     template = '
-      <div style="width: 80%; height: 400px; background-color: darkolivegreen"></div>
+      <div></div>
     '
-
-    initOption = (obj)->
-      defOption =
-        title:
-          text: obj.title or ''
-          subtext: obj.subTitle or ''
-        tooltip: trigger: 'axis'
-        legend: data: []
-        toolbox: false
-        calculable: true
-        xAxis: [ {
-          type: 'category'
-          boundaryGap: false
-          data: []
-        }]
-        yAxis: [ { type: 'value' } ]
-        series: []
-
-
+    #默认图形的宽和高
+    defaultChartHeight = "400px"
+    defaultChartWidth = "90%"
     scope =
+      bean: '='
       clazz: '@'
       title: '@'
       subTitle: '@'
-      bean: '='
-      name: '@'
-
-    drawImage = (params)->
-
+      chartWidth: '@'
+      chartHeight: '@'
+      chartData: '='
 
     class LineSurface extends Base
       constructor: -> super
 
 
+    SimpleComponent.directive('sfLineSurface',['$timeout', ($timeout)->
+      restrict: 'E'
+      replace: true
+      template: template
+      scope: scope
+      link: ($scope, element, attr)->
+        chartHeight = $scope.chartHeight or defaultChartHeight
+        chartWidth = $scope.chartWidth or defaultChartWidth
+        $(element).css('height', chartHeight)
+        $(element).css('width', chartWidth)
 
-    SimpleComponent.directive('sfLineSurface',[->
-        restrict: 'E'
-        replace: true
-        template: template
-        scope: scope
-        link: ($scope, element, attr)->
-          chart = new LineSurface(element[0])
+        chart = new LineSurface(element[0])
 
+        initChart = (data)->
+          data = data or {}
+          chart.setTitle(text: $scope.title, subtext: $scope.subTitle)
+            .parseLegendFromSeries(data.series)
+            .setXAixs(data.xAxis)
+            .setYAixs(data.yAxis)
+            .setSeries(data.series)
+            .finish()
+
+        $timeout(->
+          initChart($scope.chartData)
+        )
     ])

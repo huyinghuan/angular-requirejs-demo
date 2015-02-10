@@ -23,10 +23,16 @@
   <div class="now-time">实时数据15:48:35</div>
 </div>
 <!--right-choose end-->
-<div class="iaas-view">
-  <sf-title-hr title="CPU状态"></sf-title-hr>
+<div class="iaas-view" ng-repeat="chartData in chartList">
+  <sf-title-hr title="{{chartData.title}}"></sf-title-hr>
   <div class="viem-cont">
-    <sf-line-surface name="cpu"  title="CPU状态" bean="bean"></sf-line-surface>
+    <sf-line-surface
+      bean="bean"
+      name="cpu"
+      title="CPU状态"
+      chart-data="chartData"
+      >
+    </sf-line-surface>
   </div>
 </div>
 <!--iaas-view end-->
