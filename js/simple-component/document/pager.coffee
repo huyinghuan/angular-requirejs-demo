@@ -1,13 +1,13 @@
 define ['SimpleComponent', 'jquery.honey.pagination'], (SimpleComponent)->
   template = '<div></div>'
 
-  scope = clazz: '@', title: '@'
+  scope = clazz: '@', title: '@', name: '@'
 
   SimpleComponent.directive('sfPager',[->
     restrict: 'E'
     replace: true
     template: template
-    scope: {name: "@"}
+    scope: scope
     link: ($scope, element, attr)->
       pager = $(element).pagination({pageIndex:1, pageCount: 1, href: false})
 

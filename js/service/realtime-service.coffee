@@ -2,20 +2,18 @@ define(
   ['app', 'lodash', 'service/base']
 , (app, _)->
   app.factory('RealtimeService', ['$log', '$q', 'Base', ($log, $q, Base)->
-    uri = "businesslist"
-    dataList = null
 
     service = {}
 
     service.getBizList = ()->
-      Base.get(uri, {}).then((group)->
+      Base.get("businesslist", {}).then((group)->
         queue = []
         queue.push item.name for item in group
         queue
       )
 
     service.getCityList = (bizName)->
-      Base.get(uri, {}).then((result)->
+      Base.get("businesslist", {}).then((result)->
         return queue if not result.length
         if not bizName
           checkedItemList = result[0].value
@@ -26,6 +24,10 @@ define(
               break
         checkedItemList
       )
+
+    service.getChartListData = (params)->
+
+      Base.get("businessvalue", params)
 
     service.getServeListTable = (params)->
       defaultParams = ()->

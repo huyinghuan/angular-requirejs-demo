@@ -1,6 +1,6 @@
 define(
-  ['app', 'moment', 's/realtime-service', 'd/server-list-table'],
-  (app, moment)->
+  ['app', 'moment', 'lodash','s/realtime-service', 'd/server-list-table'],
+  (app, moment, _)->
     class Biz
       constructor: (service, $q)->
         @service = service
@@ -23,8 +23,39 @@ define(
       serverListTable: (params)->
         @service.getServeListTable(params)
 
+      chartListData: (params)->
+        @service.getChartListData(params)
+
+      parseChartData: (data)->
+        chart =
+          title: text: data.name
+          tooltip:
+            trigger: 'axis'
+            formatter: (params)->
+              console.log(params)
+              item = params.value
+              time = moment(item[0]).format("MM-DD HH:mm:ss")
+              "#{time} <br/> item[1]"
+          xAxis: [
+            { type : 'time',splitNumber: 10}
+          ]
+          yAxis: [ { type: 'value' }]
+
+        lineDataList = data.value
+
+        series = []
+        getTimeData = (arr)->
+          [item.name, item.value] for item in arr
+
+        for lineData in lineDataList
+          series.push [lineData.name, getTimeData(lineData.value)]
+          chart.series = series
+
+        chart
+
       default: ->
         @q(null)
+
 
     app.controller('RealtimeController',
       [
@@ -43,22 +74,15 @@ define(
             getData: getData
           }
 
+          headTitle = 'CDN.node-nginx'
+          biz.chartListData(businessname: headTitle).then((data)->
+            data.history
+          ).then((data)->
+            biz.parseChartData item for item in data
+          ).then((data)->
+            $scope.chartList = data
+          )
 
-          $scope.chartList = [
-            {
-              headTitle: 'cpu状态'
-              title: text: 'cpu状态', subtext: '192.16'
-              xAxis: [
-                ['周一','周二','周三','周四','周五','周六','周日']
-              ]
-              yAxis: [ { type: 'value' } ]
-              series: [
-                ['成交', [10, 12, 21, 54, 260, 830, 710]]
-                ['预购', [30, 182, 434, 791, 390, 30, 10]]
-                ['意向', [1320, 1132, 601, 234, 120, 90, 20]]
-              ]
-            }
-          ]
       ]
     )
 )

@@ -56,6 +56,10 @@ define ['echarts', 'lodash', 'jquery'], (echarts, _, $)->
       _.extend @option.title, title
       @
 
+    setTooltip: (tooltip)->
+      _.extend @option.tooltip, tooltip
+      @
+
     setLegend: (legend)->
       _.extend @option.legend, legend
       @

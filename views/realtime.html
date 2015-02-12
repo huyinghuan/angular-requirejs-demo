@@ -23,9 +23,9 @@
   <div class="now-time">实时数据15:48:35</div>
 </div>
 <!--right-choose end-->
-<div class="iaas-view" ng-repeat="chartData in chartList">
-  <sf-title-hr title="{{chartData.headTitle}}"></sf-title-hr>
-  <div class="viem-cont">
+<div class="iaas-view">
+  <sf-title-hr title="{{headTitle}}"></sf-title-hr>
+  <div class="viem-cont" ng-repeat="chartData in chartList track by $index">
     <div sf-line-surface
       bean="bean"
       chart-data="chartData"

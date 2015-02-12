@@ -27,6 +27,7 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/line']
             .setYAixs(data.yAxis)
             .setSeries(data.series)
             .setTitle(data.title)
+            .setTooltip(data.tooltip)
             .finish()
 
         initChart = (data)->
