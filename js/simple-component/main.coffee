@@ -8,6 +8,7 @@
     './form/select'
     './date/date-range-picker'
     './document/title-hr',
+    './document/pager',
     './chart/line-surface'
   ], ()->
 

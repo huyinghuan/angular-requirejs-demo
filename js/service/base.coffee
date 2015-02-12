@@ -11,7 +11,7 @@ define ['app', 'lodash'], (app, _)->
 
     ajax = (type)->
       (uri, params)->
-        _.extend params, {username: '刘悦', jurisdiction: 2}
+        _.extend params, {username: '刘悦'}
         url = buildUrl(uri)
         deferred = $q.defer()
         $http(

@@ -5,11 +5,11 @@
       <div class="selbg">
         <a href=""></a>
         <select class="sellist">
-          <option>全部</option>
-          <option>2222</option>
-          <option>3333</option>
-          <option>4444</option>
-        </select></div>
+          <option value="ALL">全部</option>
+          <option  value="0">物理机</option>
+          <option value="1">虚拟机</option>
+        </select>
+      </div>
     </div>
     <!---->
     <div class="select-box selip"><span class="seltext">服务器IP</span>
@@ -30,41 +30,20 @@
         <th>厂商设备类型</th>
         <th>操作</th>
       </tr>
-      <tr class="odd-row">
-        <td>江西移动-网站直播</td>
-        <td>物理机</td>
-        <td class="error">故障</td>
-        <td>53.117.228.219（内网）<br>58.83.191.30（外网）</td>
-        <td>Intel(R) Core(TM)2 Duo CPU T7250 @ 2.00GHz</td>
-        <td>64G</td>
-        <td>DELL R420</td>
-        <td><a href="">查看</a><a href="">重启</a><a href="">部署环境</a><a href="">重装系统</a></td>
-      </tr>
-      <tr class="even-row">
-        <td>江西移动-网站直播</td>
-        <td>虚拟机</td>
-        <td class="normal">正常</td>
-        <td>53.117.228.219（内网）<br>58.83.191.30（外网）</td>
-        <td>Intel(R) Core(TM)2 Duo CPU T7250 @ 2.00GHz</td>
-        <td>64G</td>
-        <td>DELL R420</td>
+      <tr
+        ng-repeat="server in tableData.serverlist"
+        ng-class="{'odd-row': $odd, 'even-row': $even}" >
+        <td>{{server.Description}}</td>
+        <td>{{getServerType(server.servertype)}}</td>
+        <td ng-class="{errro: isErrorServer(server.serverstatus.value)}">{{getStatus(server.serverstatus)}}</td>
+        <td>{{server.Intranet_IP}}（内网）<br>{{server.Outer_net_IP}}（外网）</td>
+        <td>{{server.CPU}}</td>
+        <td>{{server.HD}}</td>
+        <td>{{server.Device_type}}</td>
         <td><a href="">查看</a><a href="">重启</a><a href="">部署环境</a><a href="">重装系统</a></td>
       </tr>
     </table>
-    <!--table.servertable end-->
-    <div class="table-page">
-      <span class="current">1</span>
-      <a href="#?page=2">2</a>
-      <a href="#?page=3">3</a>
-      <a href="#?page=4">4</a>
-      <a href="http://www.divcss5.com/">5</a>
-      <a href="#?page=6">6</a>
-      <a href="#?page=7">7</a>
-      ...
-      <a href="#?page=199">199</a>
-      <a href="#?page=200">200</a>
-      <a href="#?page=2">
-        &gt; </a></div>
     <!--table-page 翻页 end-->
+    <sf-pager name="serverList"></sf-pager>
   </div>
 </div>

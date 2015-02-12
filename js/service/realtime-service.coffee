@@ -1,6 +1,6 @@
 define(
-  ['app', 'service/base']
-, (app)->
+  ['app', 'lodash', 'service/base']
+, (app, _)->
   app.factory('RealtimeService', ['$log', '$q', 'Base', ($log, $q, Base)->
     uri = "businesslist"
     dataList = null
@@ -8,11 +8,7 @@ define(
     service = {}
 
     service.getBizList = ()->
-      Base.get(uri, {}).then((result)->
-        result.group
-      ).then((data)->
-        dataList = data
-      ).then((group)->
+      Base.get(uri, {}).then((group)->
         queue = []
         queue.push item.name for item in group
         queue
@@ -20,24 +16,25 @@ define(
 
     service.getCityList = (bizName)->
       Base.get(uri, {}).then((result)->
-        group = result.group or []
-        #result.group
-        queue = []
-        return queue if not group.length
+        return queue if not result.length
         if not bizName
-          checkedItemList = group[0].value
+          checkedItemList = result[0].value
         else
-          for item in group
+          for item in result
             if item.name is bizName
               checkedItemList = item.value
               break
-
-        for checkedItem in checkedItemList
-          queue.push checkedItem.name
-
-        queue
-
+        checkedItemList
       )
+
+    service.getServeListTable = (params)->
+      defaultParams = ()->
+        computer_room: "广州长宽",
+        business: "ALL",
+        servertype: "ALL",
+        page: 1,
+        IP: ""
+      Base.get("serverbasicmsg", _.extend(defaultParams(), params))
 
     service
   ])

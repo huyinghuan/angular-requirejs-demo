@@ -19,7 +19,8 @@ requirejs.config({
     'angular-ui-router': 'vendor/angular-ui-router/release/angular-ui-router',
     'bootstrap-daterangepicker': 'vendor/bootstrap-daterangepicker/daterangepicker',
     moment: 'vendor/moment/moment',
-    echarts: '/js/vendor/echarts'
+    echarts: 'vendor/echarts',
+    'jquery.honey.pagination': 'vendor/jquery.honey.pagination/jquery.honey.pagination'
   },
   shim: {
     angular: {

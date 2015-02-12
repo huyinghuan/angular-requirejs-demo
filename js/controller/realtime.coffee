@@ -20,6 +20,9 @@ define(
       timeBucket: ->
         @q({startDate: new Date(), endDate: moment()})
 
+      serverListTable: (params)->
+        @service.getServeListTable(params)
+
       default: ->
         @q(null)
 
@@ -33,12 +36,13 @@ define(
         ($scope, $state, $q, $log, RealtimeService)->
 
           biz = new Biz(RealtimeService, $q)
-          getData = (name)-> if biz[name] then biz[name]() else biz['default']()
+          getData = (name, params)-> if biz[name] then biz[name](params) else biz['default']()
 
           $scope.bean = {
             getList: getData
             getData: getData
           }
+
 
           $scope.chartList = [
             {
