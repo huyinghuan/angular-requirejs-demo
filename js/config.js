@@ -20,7 +20,8 @@ requirejs.config({
     'bootstrap-daterangepicker': 'vendor/bootstrap-daterangepicker/daterangepicker',
     moment: 'vendor/moment/moment',
     echarts: 'vendor/echarts',
-    'jquery.honey.pagination': 'vendor/jquery.honey.pagination/jquery.honey.pagination'
+    'jquery.honey.pagination': 'vendor/jquery.honey.pagination/jquery.honey.pagination',
+    'angular-bind-hash': "vendor/angular-bind-hash/angular-bind-hash"
   },
   shim: {
     angular: {

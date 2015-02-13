@@ -1,7 +1,7 @@
 define(
   ['app', 'lodash', 'service/base']
 , (app, _)->
-  app.factory('RealtimeService', ['$log', '$q', 'Base', ($log, $q, Base)->
+  app.factory('RealtimeService', ['$log', '$q', 'Base', 'honey.utils', ($log, $q, Base, honeyUtils)->
 
     service = {}
 
@@ -12,7 +12,7 @@ define(
         queue
       )
 
-    service.getCityList = (bizName)->
+    service.getComputerRoom = (bizName)->
       Base.get("businesslist", {}).then((result)->
         return queue if not result.length
         if not bizName
@@ -30,13 +30,15 @@ define(
       Base.get("businessvalue", params)
 
     service.getServeListTable = (params)->
+
       defaultParams = ()->
-        computer_room: "广州长宽",
+        computer_room: "ALL",
         business: "ALL",
         servertype: "ALL",
         page: 1,
         IP: ""
-      Base.get("serverbasicmsg", _.extend(defaultParams(), params))
+
+      Base.get("serverbasicmsg", _.extend(defaultParams(), honeyUtils.getHashObj(), params))
 
     service
   ])

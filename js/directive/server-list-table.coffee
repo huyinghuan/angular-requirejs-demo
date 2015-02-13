@@ -1,13 +1,13 @@
 define ['app'], (app)->
-  app.directive('serverListTable', [->
+  app.directive('serverListTable', ['$timeout', '$location', "honey.utils", ($timeout, $location, honeyUtils)->
     restrict: 'E'
     replace: true
     templateUrl: "views/directive/server-list-table.html"
     scope: {bean: "=", name: '@'}
     link: ($scope, element, attr)->
       bean = $scope.bean
-      loadData = (params)->
-        bean.getList($scope.name, params).then((data)->
+      loadData = ->
+        bean.getList($scope.name).then((data)->
           $scope.tableData = data
           $scope.$broadcast("sf-pager:serverList:go", {
             pageIndex: data.pager.currentPage,
@@ -16,10 +16,19 @@ define ['app'], (app)->
         )
 
       loadData()
+      watchLoad = ->
+        $scope.$watch(->
+          $location.hash()
+        , ->
+          loadData()
+        )
+      $timeout(watchLoad, 2000)
 
 
       $scope.$on("sf-pager:serverList:goto", (e, data)->
-        loadData({page: data.pageIndex})
+        console.log data
+        $scope.$apply(-> honeyUtils.setHash({page:data.pageIndex}))
+
       )
 
       $scope.getStatus = (serverstatus)->

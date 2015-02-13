@@ -1,10 +1,11 @@
 <div class="iaas-view">
   <sf-title-hr title="服务器"></sf-title-hr>
   <div class="right-choose">
-    <div class="select-box selip"><span class="seltext">机器类型</span>
+    <div class="select-box selip">
+      <span class="seltext">机器类型</span>
       <div class="selbg">
         <a href=""></a>
-        <select class="sellist">
+        <select class="sellist" name="servertype" honey-hash-bind>
           <option value="ALL">全部</option>
           <option  value="0">物理机</option>
           <option value="1">虚拟机</option>
@@ -13,8 +14,7 @@
     </div>
     <!---->
     <div class="select-box selip"><span class="seltext">服务器IP</span>
-
-      <div class="selbg"><input type="text"></div>
+      <div class="selbg"><input type="text" name="IP" honey-hash-bind></div>
     </div>
   </div>
   <!--right-choose end-->
@@ -35,7 +35,7 @@
         ng-class="{'odd-row': $odd, 'even-row': $even}" >
         <td>{{server.Description}}</td>
         <td>{{getServerType(server.servertype)}}</td>
-        <td ng-class="{errro: isErrorServer(server.serverstatus.value)}">{{getStatus(server.serverstatus)}}</td>
+        <td ng-class="{error: isErrorServer(server.serverstatus.status)}">{{getStatus(server.serverstatus)}}</td>
         <td>{{server.Intranet_IP}}（内网）<br>{{server.Outer_net_IP}}（外网）</td>
         <td>{{server.CPU}}</td>
         <td>{{server.HD}}</td>
