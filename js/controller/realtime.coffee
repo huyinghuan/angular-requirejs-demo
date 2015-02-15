@@ -2,22 +2,29 @@ define(
   ['app', 'moment', 'lodash', 'utils', 's/realtime-service', 'd/server-list-table'],
   (app, moment, _, utils)->
     class Biz
-      constructor: (service, $q)->
-        @service = service
-        @$q = $q
+      constructor: (@service, @$q)->
 
       q: (data)->
         deferred = @$q.defer()
         deferred.resolve(data)
         deferred.promise
 
-      businessname: ->
+      business: ->
         @service.getBizList()
 
-      computer_room: ->
-        @service.getComputerRoom().then((data)->
+      computer_room: (params)->
+        @service.getComputerRoom(params).then((data)->
+
           [{name:"全部",value: "ALL"}].concat(data)
         )
+
+      servertype: ->
+        data = [
+          {name: "全部", value: "ALL"}
+          {name: "物理机", value: "0"}
+          {name: "虚拟机", value: "1"}
+        ]
+        @q(data)
 
       timeBucket: ->
         @q({startDate: new Date(), endDate: moment()})
@@ -36,7 +43,7 @@ define(
           xAxis: [
             { type : 'time', splitNumber: 10}
           ]
-          yAxis: [ { type: 'value' }]
+          yAxis: [ { type: 'value', name: unit}]
 
         lineDataList = data.value
 
@@ -46,7 +53,6 @@ define(
 
         for lineData in lineDataList
           series.push [lineData.name, getTimeData(lineData.value)]
-          series.push ['as', getTimeData(lineData.value, 50)]
           chart.series = series
 
         chart
@@ -59,7 +65,22 @@ define(
       default: ->
         @q(null)
 
-
+    #重定向
+    app.controller('RealtimeRedirectController', [
+      '$scope',
+      '$q',
+      '$state',
+      'RealtimeService',
+      ($scope, $q, $state, RealtimeService)->
+        biz = new Biz(RealtimeService)
+        biz.business().then((data)->
+          $state.go("main.realtime.one", {
+            business: data[0],
+            computer_room: "ALL"
+            servertype: "ALL"
+          })
+        )
+    ])
     app.controller('RealtimeController',
       [
         '$scope'
@@ -67,25 +88,61 @@ define(
         '$q'
         '$log'
         'RealtimeService'
-        ($scope, $state, $q, $log, RealtimeService)->
+        'honey.utils'
+        ($scope, $state, $q, $log, RealtimeService, honeyUtils)->
+
+          #获取查询参数
+          getParams = (params)->
+            $log.log(params)
+            data = _.extend {}, $state.params, honeyUtils.getHashObj(), params
+            $log.log data
+            return data
 
           biz = new Biz(RealtimeService, $q)
-          getData = (name, params)-> if biz[name] then biz[name](params) else biz['default']()
+
+          getData = (name, params = {})->
+            if biz[name] then biz[name](getParams(params)) else biz['default']()
+
+          #表单控件值改变
+          formChange = (name, value)->
+            obj = {}
+            obj[name] = value
+            switch name
+              when "business" then loadDataChart(obj) #业务改变了
+              when "serverTablePager" #翻页
+                $scope.$apply(-> honeyUtils.setHash({page:value}))
+                $log.log "serverTablePager"
+                loadDataTable(obj)
+              when "computer_room", "servertype", "IP" #机房，机器类型， 服务器ip
+                obj.page = 1
+                loadDataTable(obj)
 
           $scope.bean = {
             getList: getData
             getData: getData
+            formChange: formChange
           }
 
-          headTitle = 'CDN.node-nginx'
-          biz.chartListData(businessname: headTitle).then((data)->
-            data.fn = biz.getConvertFunction(data.type)
-            data
-          ).then((data)->
-            biz.parseChartData item, data.fn for item in data.history
-          ).then((data)->
-            $scope.chartList = data
-          )
+          #加载表格数据
+          loadDataTable = (params)->
+            $scope.$broadcast("table:serverListTable:load", params)
+
+          #加载图形数据
+          loadDataChart = (params = {})->
+            #优先hash值，hash没有参数则使用默认值
+            params = _.extend {}, $state.params, honeyUtils.getHashObj()
+            $log.log params
+            #图形数据
+            biz.chartListData(params).then((data)->
+              data.fn = biz.getConvertFunction(data.type)
+              data
+            ).then((data)->
+              biz.parseChartData item, data.fn for item in data.history
+            ).then((data)->
+              $scope.chartList = data
+            )
+
+          loadDataChart()
 
       ]
     )

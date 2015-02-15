@@ -1,7 +1,7 @@
 define ['SimpleComponent', 'jquery.honey.pagination'], (SimpleComponent)->
   template = '<div></div>'
 
-  scope = clazz: '@', title: '@', name: '@'
+  scope = clazz: '@', title: '@', name: '@', bean: '='
 
   SimpleComponent.directive('sfPager',[->
     restrict: 'E'
@@ -9,6 +9,7 @@ define ['SimpleComponent', 'jquery.honey.pagination'], (SimpleComponent)->
     template: template
     scope: scope
     link: ($scope, element, attr)->
+      bean = $scope.bean
       pager = $(element).pagination({pageIndex:1, pageCount: 1, href: false})
 
       $scope.$on("sf-pager:#{$scope.name}:go", (event, pageData)->
@@ -16,6 +17,6 @@ define ['SimpleComponent', 'jquery.honey.pagination'], (SimpleComponent)->
       )
 
       pager.on('goto', (e, data)->
-        $scope.$emit("sf-pager:#{$scope.name}:goto", data)
+        bean.formChange and bean.formChange($scope.name, data.pageIndex)
       )
   ])

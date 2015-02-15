@@ -1,21 +1,17 @@
 <div class="iaas-view">
   <sf-title-hr title="服务器"></sf-title-hr>
   <div class="right-choose">
-    <div class="select-box selip">
-      <span class="seltext">机器类型</span>
-      <div class="selbg">
-        <a href=""></a>
-        <select class="sellist" name="servertype" honey-hash-bind>
-          <option value="ALL">全部</option>
-          <option  value="0">物理机</option>
-          <option value="1">虚拟机</option>
-        </select>
-      </div>
-    </div>
+    <sf-select
+      bean="bean"
+      clazz="select-box selip"
+      title="城市机房"
+      name="computer_room">
+    </sf-select>
+
+    <sf-select name="servertype" title="机器类型" clazz="select-box selip" bean="bean">
+    </sf-select>
     <!---->
-    <div class="select-box selip"><span class="seltext">服务器IP</span>
-      <div class="selbg"><input type="text" name="IP" honey-hash-bind></div>
-    </div>
+    <sf-input name="IP" clazz="select-box selip" title="服务器IP" bean="bean"></sf-input>
   </div>
   <!--right-choose end-->
   <div class="viem-cont">
@@ -40,10 +36,15 @@
         <td>{{server.CPU}}</td>
         <td>{{server.HD}}</td>
         <td>{{server.Device_type}}</td>
-        <td><a href="">查看</a><a href="">重启</a><a href="">部署环境</a><a href="">重装系统</a></td>
+        <td>
+          <a href="javascript:void(0)" ng-click="gotoRouter(server.name)">查看</a>
+          <a href="">重启</a>
+          <a href="">部署环境</a>
+          <a href="">重装系统</a>
+        </td>
       </tr>
     </table>
     <!--table-page 翻页 end-->
-    <sf-pager name="serverList"></sf-pager>
+    <sf-pager name="serverTablePager" bean="bean"></sf-pager>
   </div>
 </div>

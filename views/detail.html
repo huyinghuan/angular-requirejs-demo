@@ -1,21 +1,9 @@
 <!--right-nav end-->
 <div class="right-choose">
-  <sync-select
-    clazz="select-box"
-    title="业务"
-    name="bzi">
-  </sync-select>
-
-  <!--城市选择 end-->
-  <div class="select-box selip"><span class="seltext">服务器</span>
-
-    <div class="selbg">
-      <a href=""></a>
-      <select class="sellist">
-        <option>53.117.228.219</option>
-        <option>58.83.191.30</option>
-      </select></div>
-  </div>
+  <sf-select bean="bean" name="computer_room" title="城市" clazz="select-box">
+  </sf-select>
+  <sf-select bean="bean" name="hostname" title="服务器" clazz="select-box">
+  </sf-select>
   <!--服务器选择 end-->
   <div class="select-box seltime"><span class="seltext">时间</span>
 

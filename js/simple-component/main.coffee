@@ -6,9 +6,10 @@
   #加载其他组建
   define [
     './form/select'
+    './form/input'
     './date/date-range-picker'
-    './document/title-hr',
-    './document/pager',
+    './document/title-hr'
+    './document/pager'
     './chart/line-surface'
   ], ()->
 

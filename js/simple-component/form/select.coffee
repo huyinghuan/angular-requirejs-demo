@@ -28,7 +28,9 @@ define ['SimpleComponent', 'jquery'], (SimpleComponent, $)->
       bean.getList($scope.name).then((data)->
         $scope.itemList = data
       )
-#      $(element).find('select').on('change', ->
-#        $scope.$emit("sf-select:#{$scope.name}:change", $(this).val())
-#      )
+
+      $(element).find("select").on("change", ()->
+        bean.formChange and bean.formChange($scope.name, $(@).val())
+      )
+
   ])

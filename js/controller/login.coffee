@@ -15,12 +15,11 @@ define(['app', 's/login-service'], (app)->
                 $state.go("main.realtime")
               else
                 $scope.status = false
-
             )
             .catch((error)->
               $scope.status = false
               console.log error
-              #$state.go("main.realtime")
+              $state.go("main.realtime")
             )
   ])
 )
