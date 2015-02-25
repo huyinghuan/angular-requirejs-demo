@@ -7,6 +7,7 @@
   define [
     './form/select'
     './form/input'
+    './form/button'
     './date/date-range-picker'
     './document/title-hr'
     './document/pager'

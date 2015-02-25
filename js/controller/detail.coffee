@@ -1,5 +1,5 @@
-define(['app', 'd/hardware-chart', 'd/hardware-chart-disk','s/detail-service'],
-  (app)->
+define(['app', 'moment', 'jquery','d/hardware-chart', 'd/hardware-chart-disk','s/detail-service'],
+  (app, moment, $)->
     class Biz
       constructor: (@service, @$q)->
 
@@ -44,6 +44,7 @@ define(['app', 'd/hardware-chart', 'd/hardware-chart-disk','s/detail-service'],
           $scope.params = getParams()
 
           formChange = (name, value)->
+            format = "YYYYMMDDHHmmss"
             obj = {}
             obj[name] = value
             $log.log obj
@@ -51,13 +52,27 @@ define(['app', 'd/hardware-chart', 'd/hardware-chart-disk','s/detail-service'],
               when 'computer_room'
                 #重新加载服务器列表
                 $scope.$broadcast("sf-select:hostname:load", obj)
+              when 'timeBucket'
+                time = starttime: value[0].format(format), endtime: value[0].format(format)
+                honeyUtils.setHash(time)
+
+          loadChartData = (params)->
+            console.log params
+            $scope.nowTime = moment().format("HH:mm:ss")
+            $scope.$broadcast("hardwareChart:load", params)
+
+          formAction = (name)->
+            params =  getParams({"hostname": $("select[name='hostname']").val()})
+            loadChartData(params)
 
           $scope.bean = {
             getList: getData
             getData: getData
             formChange: formChange
+            formAction: formAction
           }
 
+          $scope.nowTime = moment().format("HH:mm:ss")
       ]
     )
 )

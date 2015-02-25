@@ -24,7 +24,7 @@ define ['app', 'jquery'], (app, $)->
 
       for item in rtime
         if item.type is 4
-          obj.numberData.push {name: item.name, value: (item.value / 1024 / 1024)}
+          obj.numberData.push {name: item.name, value: (item.value / 1024 / 1024 / 1024).toFixed(2)}
         else
           obj.pie.push {name: item.name, value: item.value}
 
@@ -44,14 +44,14 @@ define ['app', 'jquery'], (app, $)->
     scope: scope
     link: ($scope, element, attr)->
       bean = $scope.bean
-      params = {}
-      params[$scope.name] = $scope.value
-      bean.getData($scope.name, params).then((data)->
-        result = biz.parseRtimeData data.rtime
-        #分离基本数据
-        $scope.numberData = result.numberData
-        result.pie
-      ).then((data)->
-        $scope.chartData = biz.parseChartData data
-      )
+      loadData = (params = {})->
+        params[$scope.name] = $scope.value
+        bean.getData($scope.name, params).then((data)->
+          result = biz.parseRtimeData data.rtime
+          #分离基本数据
+          $scope.numberData = result.numberData
+          result.pie
+        ).then((data)->
+          $scope.chartData = biz.parseChartData data
+        )
   ])

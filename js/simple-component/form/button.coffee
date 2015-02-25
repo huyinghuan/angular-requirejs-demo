@@ -1,8 +1,8 @@
 define ['SimpleComponent', 'jquery'], (SimpleComponent, $)->
   template = '
-    <div class="simple-component {{clazz}}">
+    <div class="simple-component">
       <div class="selbg">
-        <input type="button" name="{{titile}}">
+        <button type="button" name="{{name}}" class="btn-default">{{title}}</button>
       </div>
     </div>
   '
@@ -15,14 +15,8 @@ define ['SimpleComponent', 'jquery'], (SimpleComponent, $)->
     scope: scope
     link: ($scope, element, attr)->
       bean = $scope.bean
-      bean.getData($scope.name).then((data)->
-        $scope.value = if not data? then "" else data
-      )
 
-      $(element).find("input").on("keyup", (e)->
-        if e.keyCode is 13
-          e.preventDefault()
-          bean.formChange and bean.formChange($scope.name, $(@).val())
+      $(element).find("button").on('click', ->
+        bean.formAction($scope.name)
       )
-
   ])

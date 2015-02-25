@@ -87,9 +87,10 @@ define(
         '$state'
         '$q'
         '$log'
+        '$interval'
         'RealtimeService'
         'honey.utils'
-        ($scope, $state, $q, $log, RealtimeService, honeyUtils)->
+        ($scope, $state, $q, $log, $interval, RealtimeService, honeyUtils)->
 
           #获取查询参数
           getParams = (params)->
@@ -102,6 +103,7 @@ define(
 
           #表单控件值改变
           formChange = (name, value)->
+            foramt = "YYYYMMDDHHmmss"
             obj = {}
             obj[name] = value
             switch name
@@ -113,6 +115,10 @@ define(
               when "computer_room", "servertype", "IP" #机房，机器类型， 服务器ip
                 obj.page = 1
                 loadDataTable(obj)
+              when "timeBucket"
+                time = starttime: value[0].format(foramt), endtime: value[0].format(foramt)
+                honeyUtils.setHash(time)
+                loadDataTable(time)
 
           $scope.bean = {
             getList: getData
@@ -126,6 +132,7 @@ define(
 
           #加载图形数据
           loadDataChart = (params = {})->
+            $scope.nowTime = moment().format("HH:mm:ss")
             #优先hash值，hash没有参数则使用默认值
             params = _.extend {}, $state.params, honeyUtils.getHashObj()
             $log.log params
@@ -140,6 +147,8 @@ define(
             )
 
           loadDataChart()
+
+          $interval(loadDataChart, 1000 * 60 * 5)
 
       ]
     )

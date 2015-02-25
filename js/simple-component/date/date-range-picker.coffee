@@ -56,7 +56,7 @@ define [
       bean = $scope.bean
       bean.getData($scope.name)
         .then((timeBucket)->
-          timeBucket = timeBucket or {startDate: new Date(), endDate: new Date()}
+            timeBucket = timeBucket or {startDate: new Date(), endDate: new Date()}
         )
         .then((timeBucket)->
 
@@ -70,11 +70,17 @@ define [
 
           $input.daterangepicker(options, (start, end)->
             limit = +$scope.limit
-            return if not limit
+            if not limit
+              bean.formChange and bean.formChange($scope.name, [start, end])
+              return
+
             maxDate = moment(start).add(limit, "days").startOf('day')
             if end.isAfter(maxDate)
               alert "选择时期超过限制"
+              end = maxDate
               $input.data('daterangepicker').setEndDate maxDate
+
+            bean.formChange and bean.formChange($scope.name, [start, end])
           )
           $input.data('daterangepicker').setStartDate(timeBucket.startDate)
           $input.data('daterangepicker').setEndDate(timeBucket.endDate)

@@ -85,16 +85,22 @@ define ['app', 'jquery'], (app, $)->
     scope: scope
     link: ($scope, element, attr)->
       bean = $scope.bean
-      params = {}
-      params[$scope.name] = $scope.value
-      bean.getData($scope.name, params).then((data)->
-        #分离基本数据
-        console.log biz.parseRtimeData data.rtime
-        data.history
-      ).then((data)->
-        #抽取图形数据
-        biz.parseChartData item for item in data
-      ).then((data)->
-        $scope.chartList = data
+
+      loadData = (params = {})->
+        params[$scope.name] = $scope.value
+        bean.getData($scope.name, params).then((data)->
+          #分离基本数据
+          data.history
+        ).then((data)->
+          #抽取图形数据
+          biz.parseChartData item for item in data
+        ).then((data)->
+          $scope.chartList = data
+        )
+
+      loadData()
+
+      $scope.$on("hardwareChart:load", (e, params)->
+        loadData(params)
       )
   ])

@@ -25,6 +25,8 @@ define ['SimpleComponent', 'jquery', './base', 'echarts', 'echarts/chart/line']
     link: ($scope, element, attr)->
       chartElement = element[0]
       chart = null
+
+
       setChartOptions = (data)->
         chart.parseLegendFromSeries(data.series)
         .setXAixs(data.xAxis)
@@ -41,14 +43,18 @@ define ['SimpleComponent', 'jquery', './base', 'echarts', 'echarts/chart/line']
             height: $scope.chartWidth
           })
         data = data or {}
+
+
         chart.setTitle(text: $scope.title, subtext: $scope.subTitle)
         setChartOptions(data)
-
-#      $scope.$on('SimpleComponent:chart:data:change', (e, data)->
-#        setChartOptions(data)
-#      )
 
       $timeout(->
         initChart($scope.chartData)
       )
+
+      $timeout(->
+        $scope.$watch('chartData', ->
+          setChartOptions($scope.chartData)
+        )
+      , 8000)
   ])
