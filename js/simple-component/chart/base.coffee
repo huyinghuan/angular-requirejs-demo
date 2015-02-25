@@ -101,6 +101,7 @@ define ['echarts', 'lodash', 'jquery'], (echarts, _, $)->
             name: serie[0]
             type: type
             data: serie[1]
+            symbol: 'none'
             smooth: true
             itemStyle: normal: areaStyle: type: 'default'
 

@@ -93,10 +93,7 @@ define(
 
           #获取查询参数
           getParams = (params)->
-            $log.log(params)
-            data = _.extend {}, $state.params, honeyUtils.getHashObj(), params
-            $log.log data
-            return data
+            _.extend {}, $state.params, honeyUtils.getHashObj(), params
 
           biz = new Biz(RealtimeService, $q)
 

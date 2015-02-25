@@ -9,6 +9,7 @@ define ['SimpleComponent', 'jquery'], (SimpleComponent, $)->
             ng-repeat="item in itemList"
             value="{{item.value || item}}"
             honey-hash-bind
+            ng-selected="isDefaultOption(item)"
             >
             {{item.name || item}}
           </option>
@@ -16,21 +17,36 @@ define ['SimpleComponent', 'jquery'], (SimpleComponent, $)->
       </div>
     </div>
   '
-  scope = bean: '=', clazz: '@', title: '@', name: '@'
+  scope = bean: '=', clazz: '@', title: '@', name: '@', value: '@'
 
-  SimpleComponent.directive('sfSelect',[->
+  SimpleComponent.directive('sfSelect',["$timeout", ($timeout)->
     restrict: 'E'
     replace: true
     template: template
     scope: scope
     link: ($scope, element, attr)->
       bean = $scope.bean
-      bean.getList($scope.name).then((data)->
-        $scope.itemList = data
-      )
+
+      loadData = (params = {})->
+        bean.getList($scope.name, params).then((data)->
+          $scope.itemList = data
+        )
+
+      loadData()
 
       $(element).find("select").on("change", ()->
         bean.formChange and bean.formChange($scope.name, $(@).val())
       )
+
+      #默认选择器
+      $scope.isDefaultOption = (item)->
+        value = item.value or item
+        value is $scope.value
+
+      $timeout(()->
+        $scope.$on("sf-select:#{$scope.name}:load", (e, data)->
+          loadData(data)
+        )
+      , 1000)
 
   ])

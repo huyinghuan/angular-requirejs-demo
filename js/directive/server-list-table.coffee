@@ -1,6 +1,6 @@
 define ['app', 'lodash'], (app, _)->
-  app.directive('serverListTable', ['$timeout', '$location', "$state", "$q", "honey.utils",
-    ($timeout, $location, $state, $q, honeyUtils)->
+  app.directive('serverListTable', ['$timeout', '$location', "$state", "$log", "$q", "honey.utils",
+    ($timeout, $location, $state, $log, $q, honeyUtils)->
       restrict: 'E'
       replace: true
       templateUrl: "views/directive/server-list-table.html"

@@ -13,6 +13,11 @@ define(
     service.getHardware = (hostname, hardware)->
       Base.get("servermsg", {hostname: hostname, hardware: hardware})
 
+    service.getHostName = (hostname)->
+      Base.get("hostfindname", {hostname: hostname}).then((data)->
+        [data]
+      )
+
     service
   ])
 )

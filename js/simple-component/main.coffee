@@ -11,6 +11,8 @@
     './document/title-hr'
     './document/pager'
     './chart/line-surface'
+    './chart/stacked-area'
+    './chart/pie'
   ], ()->
 
 )(define, require)

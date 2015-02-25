@@ -1,15 +1,14 @@
 define ['SimpleComponent', 'jquery'], (SimpleComponent, $)->
   template = '
     <div class="simple-component {{clazz}}">
-      <span class="seltext">{{title}}</span>
       <div class="selbg">
-        <input type="text" name="{{name}}" value="{{value}}" honey-hash-bind>
+        <input type="button" name="{{titile}}">
       </div>
     </div>
   '
-  scope = bean: '=', clazz: '@', title: '@', name: '@', value: '@'
+  scope = bean: '=', clazz: '@', title: '@', name: '@'
 
-  SimpleComponent.directive('sfInput',[->
+  SimpleComponent.directive('sfButton',[->
     restrict: 'E'
     replace: true
     template: template

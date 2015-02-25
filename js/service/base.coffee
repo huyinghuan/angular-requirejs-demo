@@ -2,10 +2,7 @@ define ['app', 'lodash'], (app, _)->
   app.factory('Base', ['$http', '$q', '$log',($http, $q, $log)->
     baseUrl = '/iaas/api'
 
-    buildUrl = (uri)->
-      url = "#{baseUrl}/#{uri}".replace(/\/\//g, "")
-      $log.log "Get from #{url}"
-      url
+    buildUrl = (uri)-> "#{baseUrl}/#{uri}".replace(/\/\//g, "")
 
     service = {}
 

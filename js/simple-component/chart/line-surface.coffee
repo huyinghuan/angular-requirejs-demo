@@ -20,6 +20,7 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/line']
       template: template
       scope: scope
       link: ($scope, element, attr)->
+        chartElement = element[0]
         chart = null
         setChartOptions = (data)->
           chart.parseLegendFromSeries(data.series)
@@ -31,7 +32,7 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/line']
             .finish()
 
         initChart = (data)->
-          chart = new LineSurface(element[0],
+          chart = new LineSurface(chartElement,
             {
               width: $scope.chartHeight,
               height: $scope.chartWidth

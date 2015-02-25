@@ -1,27 +1,68 @@
 <!--right-nav end-->
 <div class="right-choose">
-  <sf-select bean="bean" name="computer_room" title="城市" clazz="select-box">
+  <sf-select bean="bean"
+             name="computer_room"
+             title="城市"
+             clazz="select-box"
+             value="{{params.computer_room}}"
+    >
   </sf-select>
-  <sf-select bean="bean" name="hostname" title="服务器" clazz="select-box">
+  <sf-select bean="bean"
+             name="hostname"
+             title="服务器"
+             clazz="select-box"
+             value="{{params.hostname}}"
+    >
   </sf-select>
   <!--服务器选择 end-->
-  <div class="select-box seltime"><span class="seltext">时间</span>
-
-    <div class="selbg">
-      <a href=""></a>
-      <select class="sellist">
-        <option>2014年6月8日到2014年6月22日</option>
-        <option>2015年1月8日到2015年2月22日</option>
-      </select></div>
-  </div>
+  <sf-daterangepicker
+    bean="bean"
+    name="timeBucket"
+    format="YYYY-MM-DD"
+    limit="31"
+    title="时间"></sf-daterangepicker>
   <!--时间选择 end-->
   <div class="now-time">实时数据15:48:35</div>
 </div>
 
-<div class="iaas-view">
-  <div class="viem-title"><strong>CPU状态</strong>
-  </div>
-  <div class="viem-cont"><img src="../../image/img/1.png"></div>
-</div>
-<!--硬盘表格 end-->
-<harddisk-table></harddisk-table>
+<hardware-chart bean="bean"
+                title="CPU状态"
+                name="hardware"
+                value="CPU"
+                clazz="iaas-view">
+</hardware-chart>
+
+<hardware-chart bean="bean"
+                title="RAM状态"
+                name="hardware"
+                value="RAM"
+                clazz="iaas-view">
+</hardware-chart>
+
+<hardware-chart bean="bean"
+                title="IO状态"
+                name="hardware"
+                value="IO"
+                clazz="iaas-view">
+</hardware-chart>
+
+<hardware-chart bean="bean"
+                title="Network状态"
+                name="hardware"
+                value="Network"
+                clazz="iaas-view">
+</hardware-chart>
+
+<hardware-chart bean="bean"
+                title="Load状态"
+                name="hardware"
+                value="Load"
+                clazz="iaas-view">
+</hardware-chart>
+
+<hardware-chart-disk bean="bean"
+                title="Disk状态"
+                name="hardware"
+                value="Disk"
+                clazz="iaas-view">
+</hardware-chart-disk>

@@ -1,27 +1,61 @@
-define(['app', 'd/harddisk-table', 's/detail-service'],
+define(['app', 'd/hardware-chart', 'd/hardware-chart-disk','s/detail-service'],
   (app)->
     class Biz
-      constructor: (@service, @params)->
-      computer_room: ->
-        @service.getBroomList(@params.business)
-      hostname: ->
-        @service.getHostnameList(@params.business, @params.computer_room)
+      constructor: (@service, @$q)->
+
+      q: (data)->
+        deferred = @$q.defer()
+        deferred.resolve(data)
+        deferred.promise
+
+      computer_room: (params)->
+        @service.getBroomList(params.business).then((data)->
+          [{name: "全部", value: "ALL"}].concat(data)
+        )
+
+      hostname: (params)->
+        return @service.getHostName(params.hostname) if params.computer_room is "ALL"
+        @service.getHostnameList(params.business, params.computer_room)
+
+      hardware: (params)->
+        @service.getHardware(params.hostname, params.hardware)
+
+      timeBucket: ->
+        @q({startDate: new Date(), endDate: moment()})
 
     app.controller('DetailController',
       [
         '$scope'
         '$state'
         '$log'
+        '$q'
         'DetailService'
-        ($scope, $state, $log, service)->
-          $log.log $state.params
+        'honey.utils'
+        ($scope, $state, $log, $q, service, honeyUtils)->
 
-          biz = new Biz(service, $state.params)
-          getData = (name, params)-> if biz[name] then biz[name](params) else biz['default']()
+          biz = new Biz(service, $q)
+
+          getParams = (params = {})->
+            _.extend {}, $state.params, honeyUtils.getHashObj(), params
+
+          getData = (name, params = {})->
+            if biz[name] then biz[name](getParams(params)) else biz['default']()
+
+          $scope.params = getParams()
+
+          formChange = (name, value)->
+            obj = {}
+            obj[name] = value
+            $log.log obj
+            switch name
+              when 'computer_room'
+                #重新加载服务器列表
+                $scope.$broadcast("sf-select:hostname:load", obj)
 
           $scope.bean = {
             getList: getData
             getData: getData
+            formChange: formChange
           }
 
       ]
