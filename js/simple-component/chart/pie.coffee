@@ -68,12 +68,12 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/pie']
         setChartOptions(data)
 
       $timeout(->
-        initChart($scope.chartData)
-      , 5000)
-
-      $timeout(->
         $scope.$watch('chartData', ->
-          setChartOptions($scope.chartData)
+          return if not $scope.chartData?
+          if not chart?
+            initChart($scope.chartData)
+          else
+            setChartOptions($scope.chartData)
         )
-      , 8000)
+      )
   ])

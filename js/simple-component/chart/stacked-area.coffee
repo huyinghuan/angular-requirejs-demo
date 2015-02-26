@@ -44,17 +44,16 @@ define ['SimpleComponent', 'jquery', './base', 'echarts', 'echarts/chart/line']
           })
         data = data or {}
 
-
         chart.setTitle(text: $scope.title, subtext: $scope.subTitle)
         setChartOptions(data)
 
       $timeout(->
-        initChart($scope.chartData)
-      )
-
-      $timeout(->
         $scope.$watch('chartData', ->
-          setChartOptions($scope.chartData)
+          return if not $scope.chartData?
+          if not chart?
+            initChart($scope.chartData)
+          else
+            setChartOptions($scope.chartData)
         )
-      , 8000)
+      )
   ])

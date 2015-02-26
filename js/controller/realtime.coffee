@@ -99,7 +99,7 @@ define(
         ($scope, $state, $q, $log, $interval, RealtimeService, honeyUtils)->
 
           #获取查询参数
-          getParams = (params)->
+          getParams = (params = {})->
             _.extend {}, $state.params, honeyUtils.getHashObj(), params
 
           biz = new Biz(RealtimeService, $q)
@@ -114,9 +114,13 @@ define(
             switch name
               when "business"
                 console.log obj
-                loadDataChart(obj) #业务改变了
+                loadDataChart(obj) #业务改变了 #加载图形
                 obj.page = 1
-                loadDataTable(obj)
+                obj.computer_room = "ALL"
+                honeyUtils.setHash({computer_room: "ALL"})
+                loadDataTable(obj) #加载数据表格
+                #加载机房下拉列表
+                loadComputerRoom()
               when "serverTablePager" #翻页
                 $scope.$apply(-> honeyUtils.setHash({page:value}))
                 $log.log "serverTablePager"
@@ -127,13 +131,22 @@ define(
               when "timeBucket"
                 time = starttime: value[0].startOf('day').unix(), endtime: value[1].endOf('day').unix()
                 honeyUtils.setHash(time)
+                time.page = 1
                 loadDataTable(time)
+                loadDataChart(time)
 
           $scope.bean = {
             getList: getData
             getData: getData
             formChange: formChange
           }
+
+          #加载机房下拉列表
+          loadComputerRoom = ()->
+            params = getParams()
+            biz["computer_room"]({business: params.params}).then((data)->
+              $scope.$broadcast("sf-select:computer_room:load", data)
+            )
 
           #加载表格数据
           loadDataTable = (params)->
@@ -143,8 +156,7 @@ define(
           loadDataChart = (params = {})->
             $scope.nowTime = moment().format("HH:mm:ss")
             #优先hash值，hash没有参数则使用默认值
-            params = _.extend {}, $state.params, honeyUtils.getHashObj(), params
-            $log.log params
+            params = getParams params
             #图形数据
             biz.chartListData(params)
             .then((data)->

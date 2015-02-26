@@ -41,11 +41,13 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/line']
           chart.setTitle(text: $scope.title, subtext: $scope.subTitle)
           setChartOptions(data)
 
-        $scope.$on('SimpleComponent:chart:data:change', (e, data)->
-          setChartOptions(data)
-        )
-
         $timeout(->
-          initChart($scope.chartData)
+          $scope.$watch('chartData', ->
+            return if not $scope.chartData?
+            if not chart?
+              initChart($scope.chartData)
+            else
+              setChartOptions($scope.chartData)
+          )
         )
     ])

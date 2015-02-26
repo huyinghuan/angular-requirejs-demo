@@ -24,7 +24,9 @@ define ['app', 'lodash'], (app, _)->
           switch code
             when 403 then $state.go("login")
             when 500 then alert("服务器内部错误，请刷新页面重试！")
-            else return deferred.resolve(msg)
+            else
+              console.log code
+              return deferred.resolve(msg)
         )
         deferred.promise
 

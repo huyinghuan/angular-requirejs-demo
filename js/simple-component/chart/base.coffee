@@ -109,4 +109,4 @@ define ['echarts', 'lodash', 'jquery'], (echarts, _, $)->
       @
 
     finish: ->
-      @chart.setOption @option
+      @chart.setOption @option, true
