@@ -11,6 +11,7 @@
     './date/date-range-picker'
     './document/title-hr'
     './document/pager'
+    './document/loading'
     './chart/line-surface'
     './chart/stacked-area'
     './chart/pie'

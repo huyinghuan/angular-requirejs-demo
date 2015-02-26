@@ -15,6 +15,7 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/pie']
         title:
           text: ''
           subtext: ''
+          x: "center"
         tooltip:
           trigger: 'item',
           formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -54,6 +55,7 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/pie']
       chart = null
 
       setChartOptions = (data)->
+        chart.setTitle(text: data.title)
         chart.option.legend.data = data.legendData
         chart.option.series[0].data = data.data
         chart.option.series[0].itemStyle.emphasis.label.formatter =  (seriesName, itemName, value)->
@@ -64,7 +66,6 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/pie']
       initChart = (data)->
         chart = new Pie(chartElement, { width: null, height: null })
         data = data or {}
-        chart.setTitle(text: "")
         setChartOptions(data)
 
       $timeout(->
