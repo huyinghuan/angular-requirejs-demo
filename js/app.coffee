@@ -1,6 +1,6 @@
 define(
-  ['angularAMD', 'sc', 'angular-ui-router'],
-  (angularAMD)->
+  ['angularAMD', 'jquery', 'sc', 'angular-ui-router'],
+  (angularAMD, $)->
     app = angular.module("app", ['ui.router', 'simple.component'])
     app.config([
       '$locationProvider',
@@ -48,5 +48,8 @@ define(
         $urlRouterProvider.when("/main-panel", "/main-panel/realtime")
         $logProvider.debugEnabled(true)
     ])
+    angular.element().ready ->
+      $('#loading').fadeOut()
+
     angularAMD.bootstrap(app)
 )
