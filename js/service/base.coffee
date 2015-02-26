@@ -15,7 +15,7 @@ define ['app', 'lodash'], (app, _)->
           method: type
           url: url
           params: params
-          timeout: 10000
+          timeout: 20000
         ).success((data)->
           deferred.resolve(data)
         ).error((msg, code)->
