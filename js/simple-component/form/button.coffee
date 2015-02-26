@@ -2,7 +2,7 @@ define ['SimpleComponent', 'jquery'], (SimpleComponent, $)->
   template = '
     <div class="simple-component">
       <div class="selbg">
-        <button type="button" name="{{name}}" class="btn-default">{{title}}</button>
+        <button type="button" name="{{name}}" class="btn btn-default">{{title}}</button>
       </div>
     </div>
   '

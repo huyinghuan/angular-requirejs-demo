@@ -35,11 +35,17 @@ define(
       chartListData: (params)->
         @service.getChartListData(params)
 
-      parseChartData: (data, fn = ((v)-> v), unit = "")->
+      parseChartData: (data, fn = ((v)-> v), unit = "GB")->
         chart =
           title: text: data.name
           tooltip:
             trigger: 'axis'
+            formatter: (item)->
+              itemName = item[0]
+              itemAxis = item[1]
+              itemValue = item[2]
+              date = moment(new Date(itemAxis)).format("YYYY-MM-DD HH:mm:ss")
+              return "#{itemName}<br>#{date}   #{itemValue[1]}"
           xAxis: [
             { type : 'time', splitNumber: 10}
           ]
@@ -103,11 +109,14 @@ define(
 
           #表单控件值改变
           formChange = (name, value)->
-            foramt = "YYYYMMDDHHmmss"
             obj = {}
             obj[name] = value
             switch name
-              when "business" then loadDataChart(obj) #业务改变了
+              when "business"
+                console.log obj
+                loadDataChart(obj) #业务改变了
+                obj.page = 1
+                loadDataTable(obj)
               when "serverTablePager" #翻页
                 $scope.$apply(-> honeyUtils.setHash({page:value}))
                 $log.log "serverTablePager"
@@ -116,7 +125,7 @@ define(
                 obj.page = 1
                 loadDataTable(obj)
               when "timeBucket"
-                time = starttime: value[0].format(foramt), endtime: value[0].format(foramt)
+                time = starttime: value[0].startOf('day').unix(), endtime: value[1].endOf('day').unix()
                 honeyUtils.setHash(time)
                 loadDataTable(time)
 
@@ -134,14 +143,18 @@ define(
           loadDataChart = (params = {})->
             $scope.nowTime = moment().format("HH:mm:ss")
             #优先hash值，hash没有参数则使用默认值
-            params = _.extend {}, $state.params, honeyUtils.getHashObj()
+            params = _.extend {}, $state.params, honeyUtils.getHashObj(), params
             $log.log params
             #图形数据
-            biz.chartListData(params).then((data)->
+            biz.chartListData(params)
+            .then((data)->
               data.fn = biz.getConvertFunction(data.type)
               data
             ).then((data)->
-              biz.parseChartData item, data.fn for item in data.history
+              queue = []
+              queue.push biz.parseChartData item, data.fn for item in data.history
+              return queue if queue.length
+              [biz.parseChartData({name: "", value: []})]
             ).then((data)->
               $scope.chartList = data
             )

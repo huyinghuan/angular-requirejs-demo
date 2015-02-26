@@ -12,9 +12,9 @@ define ['echarts', 'lodash', 'jquery'], (echarts, _, $)->
         width: 0.95
         height: 400
 
-      defaultSetting.width = +setting.width if +setting.width
-      defaultSetting.height = +setting.height if +setting.height
-      @setting = defaultSetting
+      setting.width = +setting.width or defaultSetting.width
+      setting.height = +setting.height or defaultSetting.height
+      @setting = setting
       @
 
     initContainer: (container)->

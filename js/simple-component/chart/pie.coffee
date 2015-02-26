@@ -20,7 +20,7 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/pie']
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         legend:
           orient : 'vertical',
-          x : 'left',
+          x : 'right',
           orient : 'vertical'
           data: []
         toolbox: false
@@ -37,10 +37,10 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/pie']
             emphasis:
               label:
                 formatter: (seriesName, itemName, value, precent)->
-                  return "#{itemName.replace("vfs.fs.size", "")} \n #{precent}%"
+                  return "#{itemName.replace("vfs.fs.size", "")} \n #{value}"
                 show: true,
                 position: 'center'
-                textStyle: fontSize : '30', fontWeight : 'bold'
+                textStyle: fontSize : '24', fontWeight : 'bold'
         }]
         animation: false
 
@@ -56,19 +56,24 @@ define ['SimpleComponent', './base', 'echarts', 'echarts/chart/pie']
       setChartOptions = (data)->
         chart.option.legend.data = data.legendData
         chart.option.series[0].data = data.data
+        chart.option.series[0].itemStyle.emphasis.label.formatter =  (seriesName, itemName, value)->
+          return "#{itemName.replace("vfs.fs.size", "")} \n #{value} #{data.unit}"
+
         chart.finish()
 
       initChart = (data)->
-        chart = new Pie(chartElement, { width: null,height: null })
+        chart = new Pie(chartElement, { width: null, height: null })
         data = data or {}
         chart.setTitle(text: "")
         setChartOptions(data)
 
-      $scope.$on('SimpleComponent:chart:data:change', (e, data)->
-        setChartOptions(data)
-      )
-
       $timeout(->
         initChart($scope.chartData)
       , 5000)
+
+      $timeout(->
+        $scope.$watch('chartData', ->
+          setChartOptions($scope.chartData)
+        )
+      , 8000)
   ])

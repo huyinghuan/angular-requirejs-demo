@@ -15,14 +15,16 @@ define ['app', 'lodash'], (app, _)->
           method: type
           url: url
           params: params
-          timeout: 5000
+          timeout: 10000
         ).success((data)->
           deferred.resolve(data)
         ).error((msg, code)->
           $log.error(msg, code)
           #错误处理
-          #switch(xxx)
-          deferred.reject(msg)
+          switch code
+            when 403 then $state.go("login")
+            when 500 then alert("服务器内部错误，请刷新页面重试！")
+            else return deferred.resolve(msg)
         )
         deferred.promise
 

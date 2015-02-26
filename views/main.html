@@ -4,7 +4,7 @@
     <navigator></navigator>
     <div class="cont-right">
       <div class="right-nav">
-        <a href="#">首页</a> > <a href="#">业务</a> > 详情页
+        <a href="#">首页</a> > <a ui-sref="main.realtime">业务</a><span ng-class="{off: isOff()}">&nbsp;&nbsp;>&nbsp;&nbsp;详情页</span>
       </div>
       <ui-view></ui-view>
     </div>

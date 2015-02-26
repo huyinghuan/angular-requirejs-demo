@@ -10,8 +10,8 @@ define(
     service.getHostnameList = (business, computer_room)->
       Base.get('roomserverlist', {business: business, computer_room: computer_room})
 
-    service.getHardware = (hostname, hardware)->
-      Base.get("servermsg", {hostname: hostname, hardware: hardware})
+    service.getHardware = (params)->
+      Base.get("servermsg", params)
 
     service.getHostName = (hostname)->
       Base.get("hostfindname", {hostname: hostname}).then((data)->

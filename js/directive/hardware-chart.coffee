@@ -50,6 +50,12 @@ define ['app', 'jquery'], (app, $)->
         title: text: data.name
         tooltip:
           trigger: 'axis'
+          formatter: (item)->
+            itemName = item[0]
+            itemAxis = item[1]
+            itemValue = item[2]
+            date = moment(new Date(itemAxis)).format("YYYY-MM-DD HH:mm:ss")
+            return "#{itemName}<br>#{date}   #{itemValue[1].toFixed(2)}"
         xAxis: [
           { type : 'time', splitNumber: 10}
         ]
@@ -89,6 +95,7 @@ define ['app', 'jquery'], (app, $)->
       loadData = (params = {})->
         params[$scope.name] = $scope.value
         bean.getData($scope.name, params).then((data)->
+          data = {history: [], rtime: []} if not data
           #分离基本数据
           data.history
         ).then((data)->

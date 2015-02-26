@@ -24,8 +24,8 @@ define ['app', 'lodash'], (app, _)->
         #表格 数据值 可读化
         $scope.getStatus = (serverstatus)->
           return "正常" if "#{serverstatus.status}" is "0"
-          return serverstatus.value if serverstatus.value isnt ""
           return "故障"
+
         #表格 数据值 可读化
         $scope.getServerType = (type)-> if "#{type}" is "0" then "物理机" else "虚拟机"
         #表格 数据值 可读化

@@ -18,7 +18,7 @@ define(['app', 'moment', 'jquery','d/hardware-chart', 'd/hardware-chart-disk','s
         @service.getHostnameList(params.business, params.computer_room)
 
       hardware: (params)->
-        @service.getHardware(params.hostname, params.hardware)
+        @service.getHardware(params)
 
       timeBucket: ->
         @q({startDate: new Date(), endDate: moment()})
@@ -44,7 +44,6 @@ define(['app', 'moment', 'jquery','d/hardware-chart', 'd/hardware-chart-disk','s
           $scope.params = getParams()
 
           formChange = (name, value)->
-            format = "YYYYMMDDHHmmss"
             obj = {}
             obj[name] = value
             $log.log obj
@@ -53,13 +52,14 @@ define(['app', 'moment', 'jquery','d/hardware-chart', 'd/hardware-chart-disk','s
                 #重新加载服务器列表
                 $scope.$broadcast("sf-select:hostname:load", obj)
               when 'timeBucket'
-                time = starttime: value[0].format(format), endtime: value[0].format(format)
+                time = starttime: value[0].startOf('day').unix(), endtime: value[1].endOf('day').unix()
                 honeyUtils.setHash(time)
 
           loadChartData = (params)->
             console.log params
             $scope.nowTime = moment().format("HH:mm:ss")
             $scope.$broadcast("hardwareChart:load", params)
+            $scope.$broadcast("hardwareChartDisk:load", params)
 
           formAction = (name)->
             params =  getParams({"hostname": $("select[name='hostname']").val()})

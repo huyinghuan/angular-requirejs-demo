@@ -11,7 +11,7 @@ define(
         '$state'
         '$log'
         ($scope, $state, $log)->
-          $log
+          $scope.isOff = -> $state.current.name is "main.realtime.one"
       ]
     )
 )

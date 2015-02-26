@@ -31,11 +31,13 @@
         ng-class="{'odd-row': $odd, 'even-row': $even}" >
         <td>{{server.Description}}</td>
         <td>{{getServerType(server.servertype)}}</td>
-        <td ng-class="{error: isErrorServer(server.serverstatus.status)}">{{getStatus(server.serverstatus)}}</td>
+        <td ng-class="{error: isErrorServer(server.serverstatus.status)}" title="{{server.serverstatus.value}}">
+          {{getStatus(server.serverstatus)}}
+        </td>
         <td>{{server.Intranet_IP}}（内网）<br>{{server.Outer_net_IP}}（外网）</td>
         <td>{{server.CPU}}</td>
-        <td>{{server.HD}}</td>
-        <td>{{server.Device_type}}</td>
+        <td>{{server.RAM}}</td>
+        <td>{{server.Manufacturer_device_type}}</td>
         <td>
           <a href="javascript:void(0)" ng-click="gotoRouter(server.name)">查看</a>
           <a href="">重启</a>

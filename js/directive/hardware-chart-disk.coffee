@@ -3,11 +3,11 @@ define ['app', 'jquery'], (app, $)->
   template = '
     <div class="{{clazz}}">
       <sf-title-hr title="{{title}}"></sf-title-hr>
-      <div class="viem-cont">
+      <div class="viem-cont" style="float:left; width: 45%">
         <sf-pie chart-data="chartData"></sf-pie>
       </div>
-      <div class="viem-cont">
-        <p ng-repeat="item in numberData">{{item.name}}-{{item.value}}</p>
+      <div class="viem-cont" style="float:left; width: 45%">
+        <sf-pie chart-data="numberData"></sf-pie>
       </div>
     </div>
   '
@@ -30,11 +30,12 @@ define ['app', 'jquery'], (app, $)->
 
       obj
 
-    parseChartData: (data)->
+    parseChartData: (data, unit)->
       options = {legendData: []}
       for item in data
         options.legendData.push item.name
       options.data = data
+      options.unit = unit
       options
 
   app.directive('hardwareChartDisk', [->
@@ -49,9 +50,13 @@ define ['app', 'jquery'], (app, $)->
         bean.getData($scope.name, params).then((data)->
           result = biz.parseRtimeData data.rtime
           #分离基本数据
-          $scope.numberData = result.numberData
-          result.pie
-        ).then((data)->
-          $scope.chartData = biz.parseChartData data
+          $scope.numberData = biz.parseChartData result.numberData, "GB"
+          $scope.chartData = biz.parseChartData result.pie, "%"
         )
+
+      loadData()
+
+      $scope.$on("hardwareChartDisk:load", (e, params)->
+        loadData(params)
+      )
   ])
