@@ -11,15 +11,14 @@ define(['app', 's/login-service'], (app)->
         $scope.submit = ->
           LoginService.login($scope.username, $scope.password)
             .then((data)->
-              if "1" is "#{data.success}"
+              if +data.success > 0
                 $state.go("main.realtime")
+                LoginService.username = $scope.username
               else
                 $scope.status = false
             )
             .catch((error)->
               $scope.status = false
-              console.log error
-              $state.go("main.realtime")
             )
   ])
 )

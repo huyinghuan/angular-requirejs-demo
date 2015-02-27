@@ -9,17 +9,18 @@ define ['app', 'lodash', 'jquery'], (app, _, $)->
     if count < 1
       $("#loading").fadeOut()
 
-  app.factory('Base', ['$http', '$q', '$log',($http, $q, $log)->
+  app.factory('Base', ['$http', '$q', '$log', ($http, $q, $log)->
     baseUrl = '/iaas/api'
 
     buildUrl = (uri)-> "#{baseUrl}/#{uri}".replace(/\/\//g, "")
 
     service = {}
-
+    username = '刘悦'
     ajax = (type)->
       (uri, params)->
         loading()
-        _.extend params, {username: '刘悦'}
+        username = params.username if params.username
+        _.extend params, {username: username}
         url = buildUrl(uri)
         deferred = $q.defer()
         $http(

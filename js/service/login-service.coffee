@@ -8,6 +8,9 @@ define(
       service.login = (username, password)->
         Base.get(url, {username: username, password: password})
 
+      service.getUsername = (cb)->
+        cb(service.username)
+
       service
     ])
 )
